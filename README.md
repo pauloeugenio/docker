@@ -99,11 +99,11 @@ apt install -y docker-ce docker-ce-cli containerd.io
 echo "Instalação do Docker concluída, instalando o docker-compose..."
 
 echo "Baixando o docker-compose 2.2.3 - certifique-se de atualizar para o mais recente estável"
-curl -L "https://github.com/docker/compose/releases/download/2.2.3/docker-compose-$(uname -s)-$(uname -m)" -o
-/usr/local/bin/docker-compose
+mkdir -p ~/.docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
 
 echo "Definindo permissões binárias"
-chmod +x /usr/local/bin/docker-compose
+chmod +x ~/.docker/cli-plugins/docker-compose
 
 echo “Instalação do Docker e do docker-compose concluída”
 
