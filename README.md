@@ -12,7 +12,8 @@ Vamos iniciar realizando a configuração para podermos instalar o Docker Engine
 3. Para fins de segurança, adicione a chave GPG oficial do Docker. Leia mais sobre isso <a target="_blank" href="https://unix.stackexchange.com/questions/96951/why-do-i-need-to-add-a-gpg-key-with-apt-key-before-adding-url-to-sources-list-an">aqui</a>.</br>
 <code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg</code>
 
-4. Configure um repositório estável.<pre>
+4. Configure um repositório estável.
+<pre>
 <code>echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</br></code></pre>
