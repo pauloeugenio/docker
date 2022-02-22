@@ -46,7 +46,7 @@ Mas não se preocupe! Só precisamos instalar a versão mais recente disponível
 3. Adicione seu usuário como administrador ao grupo de usuários do Docker, para não utilizar "sudo" ao executar comandos do Docker!</br>
 <code>sudo usermod -aG docker $USER</code>
 
-<h2>Desintalar</h2>
+<h2>Desinstalar</h2>
 Não vai mais utilizar o Docker e quer removelo? Desinstale e remova os arquivos de configuração com os comandos a seguir.</br>
 <pre><code>sudo apt-get purge docker-ce docker-ce-cli containerd.io
 sudo rm -rf /var/lib/docker
@@ -76,34 +76,35 @@ Para remover o Docker Compose, utilize o seguinte comando (supondo que você ins
 Chegou até aqui e achou tudo isso muito complicado ? então preparei esse script de instalação automatizada para simplificar todo o processo.
 <pre><code>#!/bin/sh
 
-echo "Starting docker community edition install..."
-echo "Removing any old instances of docker and installing dependencies"
+echo "Iniciando a instalação do docker community edition..."
+echo "Removendo todas as instâncias antigas do docker e instalando dependências"
 apt remove -y docker docker-engine docker.io containerd runc
 apt update
 apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
-echo "Dowloading latest docker and adding official GPG key"
+echo "Baixando o docker mais recente e adicionando a chave GPG oficial"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
-echo "Pulling the latest repository"
+echo "Puxando o repositório mais recente"
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
 apt update
 
-echo "Installing docker community edition"
+echo "Instalando a edição da comunidade docker"
 apt install -y docker-ce docker-ce-cli containerd.io
 
-echo "Docker install completed, installing docker-compose"
+echo "Instalação do Docker concluída, instalando o docker-compose..."
 
-echo "Dowloading docker-compose 1.29.2 - be sure to update to the latest stable"
-curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o
+echo "Baixando o docker-compose 2.2.3 - certifique-se de atualizar para o mais recente estável"
+curl -L "https://github.com/docker/compose/releases/download/2.2.3/docker-compose-$(uname -s)-$(uname -m)" -o
 /usr/local/bin/docker-compose
 
-echo "Setting binary permissions"
+echo "Definindo permissões binárias"
 chmod +x /usr/local/bin/docker-compose
 
-echo “Docker and docker-compose install complete”
+echo “Instalação do Docker e do docker-compose concluída”
 
-# Run docker as non-root user on Ubuntu
+# Execute o docker como usuário não root no Ubuntu
 sudo usermod -aG docker $USER
+
 </code><pre>
