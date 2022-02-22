@@ -57,16 +57,18 @@ sudo rm -rf /var/lib/containerd
 # Instalar o Docker-composer
 Para instalar o docker-composer, você deverá ter concluído a instalação do Docker Engine nas etapas acima. Supondo que você tenha feito isso sem erros, vamos continuar!
 
-1. Baixe a versão estável do Docker compose.</br>
-<code>sudo curl -L "https://github.com/docker/compose/releases/download/2.2.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose</code>
-
+1. Primeiro crie um diretorio e baixe a versão estável do Docker compose.</br>
+<pre>
+<code> mkdir -p ~/.docker/cli-plugins/
+ curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose</code>
+</pre>
 Ao contrário da instalação do Docker Engine, onde ele instala automaticamente a versão mais recente, o Docker Compose precisa ter a versão especificada manualmente. No momento da escrita, a versão mais recente é 2.2.3. A versão mais recente pode ser visualizada na <a target="_blank" href="https://github.com/docker/compose/releases">página de lançamento do repositório do Compose no GitHub.</a> Sinta-se à vontade para substituir a versão no comando acima conforme necessário.
 
 2. Mude as permições do binário baixado para que ele se torne executavel.</br>
-<code>sudo chmod +x /usr/local/bin/docker-compose</code>
+<code>chmod +x ~/.docker/cli-plugins/docker-compose</code>
 
 Pronto, nosso docker compose está instalado, para verificar o mesmo, basta executar o seguinte comando para visualizar a sua versão</br>
-<code>docker compose -v</code>
+<code>docker compose version</code>
 
 <h2>Desinstalar o Docker-compose</h2>
 Para remover o Docker Compose, utilize o seguinte comando (supondo que você instalou "curl" como fizemos acima).</br>
