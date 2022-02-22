@@ -65,7 +65,7 @@ Ao contrário da instalação do Docker Engine, onde ele instala automaticamente
 <code>sudo chmod +x /usr/local/bin/docker-compose</code>
 
 Pronto, nosso docker compose está instalado, para verificar o mesmo, basta executar o seguinte comando para visualizar a sua versão</br>
-<code>docker-compose -v</code>
+<code>docker compose -v</code>
 
 <h2>Desinstalar o Docker-compose</h2>
 Para remover o Docker Compose, utilize o seguinte comando (supondo que você instalou "curl" como fizemos acima).</br>
