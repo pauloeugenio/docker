@@ -1,1 +1,109 @@
-# docker
+# Como instalar o docker e docker-compose no ubuntu 20.04 LTS
+
+Vamos iniciar realizando a configuração para podermos instalar o Docker Engine e o Docker Compose através dos repositórios Docker e Docker Compose.
+
+1. Exclua todas as versões anteriores se você as tiver instalado.</br>
+<code> sudo apt-get remove docker docker-engine docker.io containerd runc</code>
+
+2. Atualize seu sistema e instale as dependências necessárias.</br>
+<code>sudo apt-get update </code></br>
+<code>sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release</code><br/>
+
+3. Para fins de segurança, adicione a chave GPG oficial do Docker. Leia mais sobre isso <a target="_blank" href="https://unix.stackexchange.com/questions/96951/why-do-i-need-to-add-a-gpg-key-with-apt-key-before-adding-url-to-sources-list-an">aqui</a>.</br>
+<code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg</code>
+
+4. Configure um repositório estável.<pre>
+<code>echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</br></code></pre>
+se até aqui deu tudo certo, você está pronto para instalar o Docker!
+
+# Instalando o Docker
+
+1. Instale a versão mais recente do Docker, com todas as suas dependências.
+<pre><code>sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io</code></pre>
+Se você estiver executando uma versão do Ubuntu mais recente do que a versão oficial do Docker, você poderá receber o seguinte erro durante esta etapa.
+<pre><code>Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Package docker-ce is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'docker-ce' has no installation candidate
+E: Unable to locate package docker-ce-cli
+E: Unable to locate package containerd.io
+E: Couldn't find any package by glob 'containerd.io'
+E: Couldn't find any package by regex 'containerd.io'
+</code></pre>
+Mas não se preocupe! Só precisamos instalar a versão mais recente disponível. Isso pode ser feito com o seguinte comando abaixo.</br>
+<code>sudo apt-get install -y docker.io</code>
+
+2. Verifique se ocorreu tudo bem na sua instalação executando sua primeira imagem.</br>
+<code>sudo docker run hello-world</code>
+
+3. Adicione seu usuário como administrador ao grupo de usuários do Docker, para não utilizar "sudo" ao executar comandos do Docker!</br>
+<code>sudo usermod -aG docker $USER</code>
+
+<h2>Desintalar</h2>
+Não vai mais utilizar o Docker e quer removelo? Desinstale e remova os arquivos de configuração com os comandos a seguir.</br>
+<pre><code>sudo apt-get purge docker-ce docker-ce-cli containerd.io
+sudo rm -rf /var/lib/docker
+sudo rm -rf /var/lib/containerd
+</code></pre>
+
+# Instalar o Docker-composer
+Para instalar o docker-composer, você deverá ter concluído a instalação do Docker Engine nas etapas acima. Supondo que você tenha feito isso sem erros, vamos continuar!
+
+1. Baixe a versão estável do Docker compose.</br>
+<code>sudo curl -L "https://github.com/docker/compose/releases/download/2.2.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose</code>
+
+Ao contrário da instalação do Docker Engine, onde ele instala automaticamente a versão mais recente, o Docker Compose precisa ter a versão especificada manualmente. No momento da escrita, a versão mais recente é 2.2.3. A versão mais recente pode ser visualizada na <a target="_blank" href="https://github.com/docker/compose/releases">página de lançamento do repositório do Compose no GitHub.</a> Sinta-se à vontade para substituir a versão no comando acima conforme necessário.
+
+2. Mude as permições do binário baixado para que ele se torne executavel.</br>
+<code>sudo chmod +x /usr/local/bin/docker-compose</code>
+
+Pronto, nosso docker compose está instalado, para verificar o mesmo, basta executar o seguinte comando para visualizar a sua versão</br>
+<code>docker-compose -v</code>
+
+<h2>Desinstalar o Docker-compose</h2>
+Para remover o Docker Compose, utilize o seguinte comando (supondo que você instalou "curl" como fizemos acima).</br>
+<code>sudo rm /usr/local/bin/docker-compose
+</code></br>
+
+# Script de instalação automatizada para Ubuntu.
+Chegou até aqui e achou tudo isso muito complicado ? então preparei esse script de instalação automatizada para simplificar todo o processo.
+<pre><code>#!/bin/sh
+
+echo "Starting docker community edition install..."
+echo "Removing any old instances of docker and installing dependencies"
+apt remove -y docker docker-engine docker.io containerd runc
+apt update
+apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+echo "Dowloading latest docker and adding official GPG key"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+echo "Pulling the latest repository"
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+apt update
+
+echo "Installing docker community edition"
+apt install -y docker-ce docker-ce-cli containerd.io
+
+echo "Docker install completed, installing docker-compose"
+
+echo "Dowloading docker-compose 1.29.2 - be sure to update to the latest stable"
+curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o
+/usr/local/bin/docker-compose
+
+echo "Setting binary permissions"
+chmod +x /usr/local/bin/docker-compose
+
+echo “Docker and docker-compose install complete”
+
+# Run docker as non-root user on Ubuntu
+sudo usermod -aG docker $USER
+</code><pre>
