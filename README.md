@@ -63,6 +63,10 @@ Para instalar o docker-composer, você deverá ter concluído a instalação do 
 curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
 </code>
 </pre>
+***OBS: Caso o procedimento acima não funcione, basta utilizar o seguinte comando: sudo apt-get install docker-compose-plugin
+
+
+
 Ao contrário da instalação do Docker Engine, onde ele instala automaticamente a versão mais recente, o Docker Compose precisa ter a versão especificada manualmente. No momento da escrita, a versão mais recente é 2.2.3. A versão mais recente pode ser visualizada na <a target="_blank" href="https://github.com/docker/compose/releases">página de lançamento do repositório do Compose no GitHub.</a> Sinta-se à vontade para substituir a versão no comando acima conforme necessário.
 
 2. Mude as permições do binário baixado para que ele se torne executavel.</br>
